@@ -13,7 +13,7 @@ $(document).ready(function () {
     updateSearchHistory();
     updateFavorites();
 
-    // Function to fetch weather data
+    // getting the weather data
     const fetchWeather = _.debounce(async (city) => {
         if (!city) return;
         currentCity = city; 
@@ -33,7 +33,7 @@ $(document).ready(function () {
                 <p>💧 Humidity: ${data.main.humidity}%</p>
             `);
 
-            // Fetch 5-day forecast
+            // 5-day forecast
             fetchForecast(city);
 
             if (!searchHistory.includes(city)) {
@@ -49,7 +49,6 @@ $(document).ready(function () {
         }
     }, 500);
 
-    // Function to fetch 5-day forecast
     const fetchForecast = async (city) => {
         const unit = isMetric ? "metric" : "imperial";
         const tempUnit = isMetric ? "°C" : "°F";
@@ -87,23 +86,23 @@ $(document).ready(function () {
         }
     };
 
-    // Event Listener for Search Button
+    // search button
     $("#searchBtn").click(() => {
         const city = $("#cityInput").val().trim();
         if (city) fetchWeather(city);
     });
 
-    // Click on a history item to re-fetch weather
+    // history button
     searchHistoryEl.on("click", "li", function () {
         fetchWeather($(this).text());
     });
 
-    // Click on a favorite city to re-fetch weather
+    // choose a favorite city
     favoritesEl.on("click", "li", function () {
         fetchWeather($(this).text());
     });
 
-    // Add city to favorites
+    // add a favorite city
     weatherInfo.on("click", ".fav-btn", function () {
         let city = $(this).data("city");
 
@@ -114,7 +113,7 @@ $(document).ready(function () {
         }
     });
 
-    // Remove city from favorites
+    // remove city from favorites
     favoritesEl.on("click", ".remove-fav", function (e) {
         e.stopPropagation(); 
         let city = $(this).data("city");
@@ -124,7 +123,7 @@ $(document).ready(function () {
         updateFavorites();
     });
 
-    // Update search history UI
+    
     function updateSearchHistory() {
         searchHistoryEl.html("");
         searchHistory.forEach(city => {
@@ -132,7 +131,7 @@ $(document).ready(function () {
         });
     }
 
-    // Update favorites UI
+    
     function updateFavorites() {
         favoritesEl.html("");
         favoriteCities.forEach(city => {
@@ -140,7 +139,7 @@ $(document).ready(function () {
         });
     }
 
-    // Unit Toggle Button Event
+ 
     unitToggleBtn.click(() => {
         isMetric = !isMetric; 
         unitToggleBtn.text(`Switch to ${isMetric ? "Imperial" : "Metric"}`);
